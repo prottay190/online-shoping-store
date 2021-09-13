@@ -12,6 +12,9 @@ body {
   outline: none;
   border: none;
 }
+.card{
+  border: 1px solid #6278df;
+}
 .search-box {
   border: 1px solid rgb(3, 118, 211);
   width: 281px;

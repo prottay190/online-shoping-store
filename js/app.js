@@ -19,9 +19,11 @@ const showProducts = (products) => {
       </div>
       <h3>${product.title}</h3>
       <p>Category: ${product.category}</p>
+      <h4>Rating: ${product.rating.rate}</h4>
+      <p>Average Rating: ${product.rating.count}</p>
       <h2>Price: $ ${product.price}</h2>
       <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now btn btn-success">add to cart</button>
-      <button id="details-btn" class="btn btn-danger">Details</button></div>
+      <button id="details-btn" onclick="loadDetails()" class="btn btn-danger">Details</button></div>
       `;
     document.getElementById("all-products").appendChild(div);
   }
@@ -69,12 +71,30 @@ const updateTaxAndCharge = () => {
     setInnerText("delivery-charge", 60);
     setInnerText("total-tax", priceConverted * 0.4);
   }
-};
-
-//grandTotal update function
-const updateTotal = () => {
+  //grandTotal update function
   const grandTotal =
-    getInputValue("price") + getInputValue("delivery-charge") +
-    getInputValue("total-tax");
+  getInputValue("price") + getInputValue("delivery-charge") +
+  getInputValue("total-tax");
   document.getElementById("total").innerText = grandTotal;
 };
+
+
+//display details
+const loadDetails = id => {
+  const url = `https://fakestoreapi.com/products?=${id}`;
+  fetch(url)
+  .then(res => res.json())
+  .then(data => displayDetails(data[0]))
+}
+
+displayDetails = product => {
+    const productDetails = document.getElementById('load-details');
+    const div = document.createElement('div');
+    div.classList.add('card')
+    div.innerHTML = `<div class="single-product">
+    <h3>${product.title}</h3>
+    <p>Category: ${product.category}</p>
+    <p>Description: ${product.description}</p>
+    `;
+    productDetails.appendChild(div)
+}
